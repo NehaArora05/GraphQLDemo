@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,22 +27,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 @RestController
 public class User {
+
     @Autowired
     GraphQLService graphQLService;
 
-@RequestMapping(method={RequestMethod.POST,RequestMethod.GET,RequestMethod.PUT})
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Object> saveUser(HttpServletRequest request, final @RequestParam(value = "query", required = true) String graphQL)
+     {
+        if (graphQL != null && !graphQL.isEmpty()) {
+            String method = request.getMethod();
+            ExecutionResult execute = graphQLService.getGraphQL().execute(
+                    ExecutionInput.newExecutionInput().query(graphQL).context(method).build());
+            return new ResponseEntity<>(execute, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+    }
+
+    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity<Object> getAllUsers(HttpServletRequest request, @RequestBody String query) {
-       
-        if(query!=null && !query.isEmpty()){
+
+        if (query != null && !query.isEmpty()) {
             String method = request.getMethod();
             ExecutionResult execute = graphQLService.getGraphQL().execute(
                     ExecutionInput.newExecutionInput().query(query).context(method).build());
             return new ResponseEntity<>(execute, HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
-    
-    
-    
+
 }
