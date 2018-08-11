@@ -6,13 +6,17 @@
 package com.example.graphqlexample.graphql.resource;
 
 import com.example.graphqlexample.graphql.service.GraphQLService;
+import graphql.ExecutionInput;
 import graphql.ExecutionResult;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,9 +29,19 @@ public class User {
     @Autowired
     GraphQLService graphQLService;
 
-    @PostMapping
-    public ResponseEntity<Object> getAllUsers(@RequestBody String query) {
-        ExecutionResult execute = graphQLService.getGraphQL().execute(query);
-        return new ResponseEntity<>(execute, HttpStatus.OK);
+@RequestMapping(method={RequestMethod.POST,RequestMethod.GET,RequestMethod.PUT})
+    public ResponseEntity<Object> getAllUsers(HttpServletRequest request, @RequestBody String query) {
+       
+        if(query!=null && !query.isEmpty()){
+            String method = request.getMethod();
+            ExecutionResult execute = graphQLService.getGraphQL().execute(
+                    ExecutionInput.newExecutionInput().query(query).context(method).build());
+            return new ResponseEntity<>(execute, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
     }
+    
+    
+    
 }

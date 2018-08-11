@@ -28,44 +28,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class GraphQLService {
     @Value("classpath:users.graphql")
-    Resource resource;
+    private Resource resource;
     private GraphQL graphQl;
     @Autowired
     private UserListDataFetcher allUsersDataFetcher;
     @Autowired
     private UserDataFetcher userDataFetcher;
-    @Autowired
-    UserRepo repo;
+    
     @PostConstruct
     public void loadSchema() throws IOException{
-        //TODO :_Remove
-        saveHardcodedData();
+       
         File schemeFile = resource.getFile();
         TypeDefinitionRegistry registry = new SchemaParser().parse(schemeFile);
-        RuntimeWiring writing = buildRunTimeWiring();
+        RuntimeWiring writing = RuntimeWiring.newRuntimeWiring()
+                .type("Query", typeWiring -> typeWiring
+                        .dataFetcher("allUsers", allUsersDataFetcher)
+                        .dataFetcher("user", userDataFetcher)).type("Mutation", 
+                                type -> type.dataFetcher("user", userDataFetcher))
+                .build();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(registry, writing);
         graphQl = GraphQL.newGraphQL(schema).build();
         
     }
 
-    private RuntimeWiring buildRunTimeWiring() {
-       
-        return RuntimeWiring.newRuntimeWiring()
-                .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("allUsers", allUsersDataFetcher)
-                        .dataFetcher("user", userDataFetcher))
-                .build();
-    }
-    
-    /**
-     * It will be removed once we save the objects through graphql
-     */
-    private void saveHardcodedData() {
-
-        repo.save(new Users("1", "Neha"));
-        repo.save(new Users("2", "Neha Arora"));
-        
-    }
+   
 
     public GraphQL getGraphQL() {
         return graphQl;

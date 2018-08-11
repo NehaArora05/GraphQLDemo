@@ -7,6 +7,8 @@ package com.example.graphqlexample.graphql.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import lombok.Setter;
 @Entity
 public class Users implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String userId;
     private String userName;
 
@@ -35,6 +38,9 @@ public class Users implements Serializable {
         this.userName = userName;
     }
 
+    public Users(final String userName) {
+        this.userName = userName;
+    }
     public String getUserId() {
         return userId;
     }

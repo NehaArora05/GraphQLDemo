@@ -1,5 +1,6 @@
 schema {
  query: Query
+ mutation: Mutation
 }
 
 type Query {
@@ -7,6 +8,9 @@ type Query {
  user(id: String): Users
 }
 
+type Mutation {
+ saveUser(userId: String!,userName: String) : Users
+}
 type Users {
   userId: String
   userName : String
