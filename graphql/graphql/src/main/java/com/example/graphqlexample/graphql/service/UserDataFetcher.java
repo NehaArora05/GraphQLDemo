@@ -27,18 +27,18 @@ public class UserDataFetcher implements DataFetcher<Users> {
     public Users get(final DataFetchingEnvironment dfe) {
 
         String context = dfe.getContext();
-        if (RequestMethod.GET.equals(context)) {
+        if (RequestMethod.GET.toString().equals(context)) {
             return this.executeGet(dfe);
-        } else if (RequestMethod.POST.equals(context)) {
+        } else if (RequestMethod.POST.toString().equals(context)) {
             return this.executePost(dfe);
-        } else if (RequestMethod.PUT.equals(context)) {
+        } else if (RequestMethod.PUT.toString().equals(context)) {
             return this.executePut(dfe);
         }
         return null;
     }
 
     private Users executeGet(final DataFetchingEnvironment dfe) {
-        String id = dfe.getArgument("userId");
+        String id = dfe.getArgument("id");
 
         Optional<Users> opt = repo.findById(id);
         if (opt.isPresent()) {

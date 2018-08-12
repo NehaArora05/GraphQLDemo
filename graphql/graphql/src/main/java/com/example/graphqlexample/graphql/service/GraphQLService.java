@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class GraphQLService {
-    @Value("classpath:users.graphql")
+    @Value("classpath:users.graphqls")
     private Resource resource;
     private GraphQL graphQl;
     @Autowired

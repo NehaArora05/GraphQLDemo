@@ -9,7 +9,7 @@ type Query {
 }
 
 type Mutation {
- saveUser(userId: String!,userName: String) : Users
+ user(id: String!,userName: String) : Users!	
 }
 type Users {
   userId: String

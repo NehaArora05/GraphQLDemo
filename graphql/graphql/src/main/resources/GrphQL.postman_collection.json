@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "3cc7c38a-7edf-4596-90be-e069d9ea6af0",
+		"name": "GrphQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "saveUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "mutation {\n    user(id: \"10\", userName: \"User3\") {\n      userId,userName\n    }\n}"
+				},
+				"url": {
+					"raw": "localhost:8090/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"users"
+					]
+				},
+				"description": "sa"
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "mutation {\n    user(id: \"10\", userName: \"User3\") {\n      userId,userName\n    }\n}"
+				},
+				"url": {
+					"raw": "localhost:8090/users?query=query{allUsers{userId,userName}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "query{allUsers{userId,userName}}"
+						}
+					]
+				},
+				"description": "sa"
+			},
+			"response": []
+		},
+		{
+			"name": "getOneUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "mutation {\n    user(id: \"10\", userName: \"User3\") {\n      userId,userName\n    }\n}"
+				},
+				"url": {
+					"raw": "localhost:8090/users?query=query{user(id:\"40288186652de09201652de17a370000\"){userId,userName}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "query{user(id:\"40288186652de09201652de17a370000\"){userId,userName}}"
+						}
+					]
+				},
+				"description": "sa"
+			},
+			"response": []
+		}
+	]
+}
