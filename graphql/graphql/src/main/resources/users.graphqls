@@ -5,11 +5,11 @@ schema {
 
 type Query {
  allUsers: [Users]
- user(id: String): Users
+ user(userId: String): Users
 }
 
 type Mutation {
- user(id: String!,userName: String) : Users!	
+ user(userId: String,userName: String) : Users!	
 }
 type Users {
   userId: String

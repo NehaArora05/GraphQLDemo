@@ -10,10 +10,8 @@ import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +30,7 @@ public class User {
     GraphQLService graphQLService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Object> saveUser(HttpServletRequest request, final @RequestParam(value = "query", required = true) String graphQL)
+    public ResponseEntity<Object> getAllUsers(HttpServletRequest request, final @RequestParam(value = "query", required = true) String graphQL)
      {
         if (graphQL != null && !graphQL.isEmpty()) {
             String method = request.getMethod();
@@ -45,7 +43,7 @@ public class User {
     }
 
     @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
-    public ResponseEntity<Object> getAllUsers(HttpServletRequest request, @RequestBody String query) {
+    public ResponseEntity<Object> saveUser(HttpServletRequest request, @RequestBody String query) {
 
         if (query != null && !query.isEmpty()) {
             String method = request.getMethod();
